@@ -1,8 +1,5 @@
-import base.GameCanvas;
-import base.GameWindow;
-
-import javax.swing.*;
-import java.awt.*;
+import base.game.GameCanvas;
+import base.game.GameWindow;
 
 /**
  * Created by huynq on 7/4/17.
