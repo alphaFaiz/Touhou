@@ -1,3 +1,4 @@
+
 import base.game.GameCanvas;
 import base.game.GameWindow;
 
@@ -12,7 +13,12 @@ public class Program {
         GameCanvas canvas = new GameCanvas();
         window.add(canvas);
         window.setVisible(true);
+
+        canvas.createEnemy();
+
         canvas.gameLoop();
+
+
         }
 
 }

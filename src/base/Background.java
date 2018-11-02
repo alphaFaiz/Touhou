@@ -5,6 +5,8 @@ import tklibs.SpriteUtils;
 
 import java.awt.*;
 
+import static base.game.GameCanvas.enemies;
+
 public class Background extends GameObject {
     public  Background(){
         super();
@@ -20,7 +22,7 @@ public class Background extends GameObject {
     @Override
     public void run() {
         if(this.position.y<0) {
-            this.position.addThis(0,5);
+            this.position.addThis(0,3);
         }
     }
 }
