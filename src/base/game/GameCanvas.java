@@ -14,14 +14,15 @@ import java.util.ArrayList;
 public class GameCanvas extends JPanel {
     GameObject background;
     GameObject player;
+    GameObject enemy;
     public static ArrayList<PlayerBullet> bullets;
     public static ArrayList<Enemy> enemies;
     public static ArrayList<EnemyBullet> enemyBullets;
-    //thêm 2 mảng enemies và enemybullets
 
     public GameCanvas(){
         this.background = new Background();
         this.player = new Player();
+        this.enemy = new Enemy();
         GameCanvas.bullets = new ArrayList<>();
         GameCanvas.enemies = new ArrayList<>();
         GameCanvas.enemyBullets = new ArrayList<>();
@@ -31,6 +32,7 @@ public class GameCanvas extends JPanel {
     protected void paintComponent(Graphics g) {
         this.background.render(g);
         this.player.render(g);
+        this.enemy.render(g);
         for(PlayerBullet bullet: bullets) {
             bullet.render(g);
         }
@@ -62,6 +64,7 @@ public class GameCanvas extends JPanel {
     private void runAll() {
         this.background.run();
         this.player.run();
+        this.enemy.run();
         for(PlayerBullet bullet: bullets) {
             bullet.run();
         }
@@ -72,10 +75,10 @@ public class GameCanvas extends JPanel {
             ebullet.run();
         }
     }
-
-    public void createEnemy() {
-        Enemy enemy = new Enemy();
-        enemy.position.x = (int) ( new Background().image.getWidth() * Math.random() );
-        GameCanvas.enemies.add(enemy);
-    }
+//
+//    public void createEnemy() {
+//        Enemy enemy = new Enemy();
+//        enemy.position.x = (int) ( new Background().image.getWidth() * Math.random() );
+//        GameCanvas.enemies.add(enemy);
+//    }
 }

@@ -14,7 +14,7 @@ public class Program {
         window.add(canvas);
         window.setVisible(true);
 
-        canvas.createEnemy();
+        //canvas.createEnemy();
 
         canvas.gameLoop();
 
