@@ -1,4 +1,5 @@
 
+import base.GameObject;
 import base.game.GameCanvas;
 import base.game.GameWindow;
 

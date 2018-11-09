@@ -1,5 +1,8 @@
 package base.player;
 
+import base.FrameCounter;
+import base.HomingBullet;
+import base.enemy.EnemyBullet;
 import base.game.GameCanvas;
 import base.GameObject;
 import base.KeyEventPress;
@@ -12,31 +15,37 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class Player extends GameObject {
-
-    int count = 0;
-
+    FrameCounter fireCounter;
     public Player(){
         super();
-        createRenderer();
-//        BufferedImage image = SpriteUtils.loadImage("assets/images/players/straight/0.png");
-//        this.renderer = new SingleImageRenderer(image);
-//        Setting.PLAYER_IMAGE_WIDTH = image.getWidth();
-//        Setting.PLAYER_IMAGE_HEIGHT = image.getHeight();
-
+        this.createRenderer();
         this.position.set(200, 300);
+        this.fireCounter = new FrameCounter(10);
     }
 
     private void createRenderer() {
-        ArrayList<BufferedImage> images = new ArrayList<>();
-        images.add(SpriteUtils.loadImage("assets/images/players/straight/0.png"));
-        images.add(SpriteUtils.loadImage("assets/images/players/straight/1.png"));
-        images.add(SpriteUtils.loadImage("assets/images/players/straight/2.png"));
-        images.add(SpriteUtils.loadImage("assets/images/players/straight/3.png"));
-        images.add(SpriteUtils.loadImage("assets/images/players/straight/4.png"));
-        images.add(SpriteUtils.loadImage("assets/images/players/straight/5.png"));
-        images.add(SpriteUtils.loadImage("assets/images/players/straight/6.png"));
+        ArrayList<BufferedImage> images = SpriteUtils.loadImages(
+                "assets/images/players/straight/0.png",
+                "assets/images/players/straight/1.png",
+                "assets/images/players/straight/2.png",
+                "assets/images/players/straight/3.png",
+                "assets/images/players/straight/4.png",
+                "assets/images/players/straight/5.png",
+                "assets/images/players/straight/6.png"
+        );
         this.renderer = new AnimationRenderer(images);
     }
+//    private void createRenderer() {
+//        ArrayList<BufferedImage> images = new ArrayList<>();
+//        images.add(SpriteUtils.loadImage("assets/images/players/straight/0.png"));
+//        images.add(SpriteUtils.loadImage("assets/images/players/straight/1.png"));
+//        images.add(SpriteUtils.loadImage("assets/images/players/straight/2.png"));
+//        images.add(SpriteUtils.loadImage("assets/images/players/straight/3.png"));
+//        images.add(SpriteUtils.loadImage("assets/images/players/straight/4.png"));
+//        images.add(SpriteUtils.loadImage("assets/images/players/straight/5.png"));
+//        images.add(SpriteUtils.loadImage("assets/images/players/straight/6.png"));
+//        this.renderer = new AnimationRenderer(images);
+//    }
 
     @Override
     public void run() {
@@ -67,14 +76,14 @@ public class Player extends GameObject {
     }
 
     private void fire() {
-        if (count >= 10) {
-            PlayerBullet bullet = new PlayerBullet();
-            bullet.position.set(this.position.x, this.position.y);
-            GameCanvas.bullets.add(bullet);
-            count = 0;
-        }
-        else {
-            count+=1;
+        if (this.fireCounter.run()) {
+            PlayerBullet bullet = GameObject.recycle(PlayerBullet.class);
+            bullet.position.set(this.position);
+            //thêm hướng đạn khác
+            HomingBullet homingBullet = GameObject.recycle(HomingBullet.class);
+            homingBullet.position.set(this.position);
+            //
+            this.fireCounter.reset();
         }
     }
 }
