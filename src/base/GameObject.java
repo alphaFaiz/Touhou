@@ -1,5 +1,6 @@
 package base;
 
+import base.enemy.Enemy;
 import base.player.Player;
 import base.renderer.Renderer;
 
@@ -15,6 +16,9 @@ public class GameObject {
         gameObjects.add(player);
         return player;
     }
+
+    //viết thêm 1 hàm getGameObject để trích xuất đối tượng thuộc 1 lớp
+
 
     //createGameObject, dùng generic
     public static <E extends GameObject> E create(Class<E> clazz) {
@@ -48,11 +52,13 @@ public class GameObject {
     public Renderer renderer;
     public Vector2D position;
     public boolean isActive;
+    public Vector2D velocity;
 
     //phương thức
     public  GameObject(){
         this.position = new Vector2D();
         this.isActive = true;
+        this.velocity = new Vector2D();
     }
 
     public void destroy() {
@@ -64,6 +70,7 @@ public class GameObject {
     }
 
     public  void  run(){
+        this.position.addThis(this.velocity);
     }
 
     public  void render(Graphics g){
@@ -71,4 +78,5 @@ public class GameObject {
             this.renderer.render(g, this);
         }
     }
+
 }

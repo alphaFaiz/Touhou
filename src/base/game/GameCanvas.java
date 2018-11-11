@@ -15,7 +15,7 @@ public class GameCanvas extends JPanel {
     GameObject background;
     GameObject player;
 
-    public GameCanvas(){
+    public GameCanvas() {
         this.background = GameObject.recycle(Background.class);
         this.player = GameObject.recycle(Player.class); //tương đương "new Player"
         Enemy enemy = GameObject.recycle(Enemy.class);
@@ -32,17 +32,18 @@ public class GameCanvas extends JPanel {
         }
     }
 
-    public void gameLoop(){
+    public void gameLoop() {
         int delay = 1000 / 60;
         long lastRun = 0;
-        while (true){
+        while (true) {
             long currentTime = System.currentTimeMillis();
-            if(currentTime - lastRun > delay) {
+            if (currentTime - lastRun > delay) {
                 this.runAll();
                 this.renderAll();
                 lastRun = currentTime;
             }
         }
+
     }
 
     private void renderAll() {
@@ -60,4 +61,6 @@ public class GameCanvas extends JPanel {
         System.out.println(GameObject.gameObjects.size());
 
     }
+
 }
+

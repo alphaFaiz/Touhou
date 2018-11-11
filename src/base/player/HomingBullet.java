@@ -1,5 +1,6 @@
-package base;
+package base.player;
 
+import base.GameObject;
 import base.enemy.Enemy;
 import base.game.Setting;
 import base.renderer.AnimationRenderer;
@@ -39,4 +40,5 @@ public class HomingBullet extends GameObject {
             this.destroy();
         }
     }
+
 }

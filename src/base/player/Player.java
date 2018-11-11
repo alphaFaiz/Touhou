@@ -1,14 +1,10 @@
 package base.player;
 
 import base.FrameCounter;
-import base.HomingBullet;
-import base.enemy.EnemyBullet;
-import base.game.GameCanvas;
 import base.GameObject;
 import base.KeyEventPress;
 import base.game.Setting;
 import base.renderer.AnimationRenderer;
-import base.renderer.SingleImageRenderer;
 import tklibs.SpriteUtils;
 
 import java.awt.image.BufferedImage;
@@ -49,41 +45,51 @@ public class Player extends GameObject {
 
     @Override
     public void run() {
+        this.move();
+        if (this.fireCounter.run() && (KeyEventPress.isFirePress)) {
+            this.fire();
+        }
+        super.run();
+    }
+
+    private void move() {
+        int vx = 0;
+        int vy = 0;
+        //TODO upgrade
         if(KeyEventPress.isUpPress) {
             if (this.position.y>0)
-            this.position.subtractThis(0,4);
+                vy -= 4;
         }
 
         if(KeyEventPress.isLeftPress) {
             if (this.position.x>0)
-            this.position.subtractThis(4, 0);
+                vx -= 4;
         }
 
         if(KeyEventPress.isDownPress) {
             if (this.position.y< Setting.SCREEN_HEIGHT - Setting.PLAYER_IMG_HEIGHT)
-            this.position.addThis(0,4);
+                vy += 4;
         }
 
         if(KeyEventPress.isRightPress) {
             if( this.position.x< Setting.BACKGROUND_IMG_WIDTH - Setting.PLAYER_IMG_WIDTH)
-            this.position.addThis(4,0);
+                vx += 4;
         }
+        this.velocity.set(vx,vy);
 
-        if ((KeyEventPress.isFirePress)) {
-            this.fire();
-        }
 
     }
 
     private void fire() {
-        if (this.fireCounter.run()) {
-            PlayerBullet bullet = GameObject.recycle(PlayerBullet.class);
-            bullet.position.set(this.position);
+            PlayerBulletType1 bullet = GameObject.recycle(PlayerBulletType1.class);
+            bullet.position.set(this.position.add(25,0));
             //thêm hướng đạn khác
-            HomingBullet homingBullet = GameObject.recycle(HomingBullet.class);
-            homingBullet.position.set(this.position);
+//            HomingBullet homingBullet = GameObject.recycle(HomingBullet.class);
+//            homingBullet.position.set(this.position);
+            PlayerBulletType2 playerBulletType2 = GameObject.recycle(PlayerBulletType2.class);
+            playerBulletType2.position.set(this.position.add(-25,0));
+            playerBulletType2.velocity.set(-5, -5);
             //
             this.fireCounter.reset();
-        }
     }
 }
