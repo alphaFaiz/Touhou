@@ -5,6 +5,8 @@ import base.FrameCounter;
 import base.GameObject;
 import base.game.GameCanvas;
 import base.game.Setting;
+import base.physics.BoxCollider;
+import base.physics.Physics;
 import base.renderer.AnimationRenderer;
 import base.renderer.SingleImageRenderer;
 import tklibs.SpriteUtils;
@@ -12,7 +14,8 @@ import tklibs.SpriteUtils;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class Enemy extends GameObject {
+public class Enemy extends GameObject implements Physics {
+    BoxCollider boxCollider;
     FrameCounter fireCounter;
     public Enemy() {
         super();
@@ -20,6 +23,7 @@ public class Enemy extends GameObject {
         this.position.set(100, 100);
         this.fireCounter = new FrameCounter(20);
         this.velocity.set(0,3);
+        this.boxCollider = new BoxCollider(this.position, 34, 50);
     }
 
     private void createRenderer() {
@@ -40,6 +44,13 @@ public class Enemy extends GameObject {
         }
     }
 
+    @Override
+    public void destroy() {
+        super.destroy();
+        EnemyExplosion explosion= GameObject.recycle(EnemyExplosion.class);
+        explosion.position.set(this.position);
+    }
+
     float startXPosition = this.position.x;
     float startYPosition = this.position.y;
     @Override
@@ -49,6 +60,7 @@ public class Enemy extends GameObject {
             this.velocity.set(0,0);
         }
 
+    //Todo: replace velocity in enemy movement
 //        if (startYPosition < 100) {
 //            this.position.addThis(0, 3);
 //        }
@@ -70,6 +82,11 @@ public class Enemy extends GameObject {
 //        }
 
         this.fire();
+    }
+
+    @Override
+    public BoxCollider getBoxCollider() {
+        return this.boxCollider;
     }
 }
 

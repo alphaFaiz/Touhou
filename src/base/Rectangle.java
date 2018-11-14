@@ -15,15 +15,37 @@ public class Rectangle {
         this.height = height;
     }
 
-    //TODO
+    public int top() {
+        return (int) this.position.y;
+    }
+
+    public int bottom() {
+        return this.top() + this.height;
+    }
+
+    public int left() {
+        return (int) this.position.x;
+    }
+
+    public int right() {
+        return this.left() + this.width;
+    }
+
     public boolean intersects(Rectangle other) {
-        if(
-                (other.position.x >= this.position.x && other.position.y >= this.position.y && other.position.x <= this.position.x + this.width && other.position.y <= this.position.y +this.height )
-        || (this.position.x >= other.position.x && this.position.y >= other.position.y && this.position.x <= other.position.x + other.width && this.position.y <= other.position.y + other.height )
-        )
-        return true;
-        else
-            return false;
+//        boolean intersectX= (other.top() >= this.top() && other.top() <= this.bottom())
+//                || (other.bottom() >= this.top() && other.bottom() <= this.bottom());
+//        boolean intersectY= (other.left() >= this.left() && other.left() <= this.right())
+//                || (other.right() >= this.left() && other.right() <= this.right());
+        boolean intersectX = this.left() <= other.right() && other.left() <= this.right();
+        boolean intersectY = this.top() <= other.bottom() && other.top() <= this.bottom();
+        return intersectX && intersectY;
+//        if(
+//                (other.position.x >= this.position.x && other.position.y >= this.position.y && other.position.x <= this.position.x + this.width && other.position.y <= this.position.y +this.height )
+//        || (this.position.x >= other.position.x && this.position.y >= other.position.y && this.position.x <= other.position.x + other.width && this.position.y <= other.position.y + other.height )
+//        )
+//        return true;
+//        else
+//            return false;
     }
 
     public static void main(String[] args) {

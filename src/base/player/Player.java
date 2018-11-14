@@ -4,19 +4,25 @@ import base.FrameCounter;
 import base.GameObject;
 import base.KeyEventPress;
 import base.game.Setting;
+import base.physics.BoxCollider;
+import base.physics.Physics;
 import base.renderer.AnimationRenderer;
 import tklibs.SpriteUtils;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class Player extends GameObject {
+public class Player extends GameObject implements Physics {
     FrameCounter fireCounter;
+    BoxCollider boxCollider;
+    public int health;
     public Player(){
         super();
         this.createRenderer();
         this.position.set(200, 300);
         this.fireCounter = new FrameCounter(10);
+        this.boxCollider = new BoxCollider(this.position,32,48);
+        this.health = 3;
     }
 
     private void createRenderer() {
@@ -55,7 +61,6 @@ public class Player extends GameObject {
     private void move() {
         int vx = 0;
         int vy = 0;
-        //TODO upgrade
         if(KeyEventPress.isUpPress) {
             if (this.position.y>0)
                 vy -= 4;
@@ -82,14 +87,26 @@ public class Player extends GameObject {
 
     private void fire() {
             PlayerBulletType1 bullet = GameObject.recycle(PlayerBulletType1.class);
-            bullet.position.set(this.position.add(25,0));
+            bullet.position.set(this.position.add(15,0));
             //thêm hướng đạn khác
 //            HomingBullet homingBullet = GameObject.recycle(HomingBullet.class);
 //            homingBullet.position.set(this.position);
             PlayerBulletType2 playerBulletType2 = GameObject.recycle(PlayerBulletType2.class);
-            playerBulletType2.position.set(this.position.add(-25,0));
+            playerBulletType2.position.set(this.position.add(-15,0));
             playerBulletType2.velocity.set(-5, -5);
             //
             this.fireCounter.reset();
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        PlayerExplosion playerExplosion = GameObject.recycle(PlayerExplosion.class);
+        playerExplosion.position.set(this.position);
+    }
+
+    @Override
+    public BoxCollider getBoxCollider() {
+        return this.boxCollider;
     }
 }

@@ -1,6 +1,8 @@
 package base;
 
 import base.enemy.Enemy;
+import base.physics.BoxCollider;
+import base.physics.Physics;
 import base.player.Player;
 import base.renderer.Renderer;
 
@@ -16,9 +18,6 @@ public class GameObject {
         gameObjects.add(player);
         return player;
     }
-
-    //viết thêm 1 hàm getGameObject để trích xuất đối tượng thuộc 1 lớp
-
 
     //createGameObject, dùng generic
     public static <E extends GameObject> E create(Class<E> clazz) {
@@ -40,6 +39,26 @@ public class GameObject {
         }
         E newGameObject = create(clazz);
         return newGameObject;
+    }
+    /*
+    trả về 1 gameObject có kiểu clazz<E> intersect với gameObject
+     */
+    public static <E extends GameObject> E intersects(Class<E> clazz, BoxCollider boxCollider) {
+        //tìm trong gameObjects kết quả result thỏa mãn instanceof E và instanceof Physics
+        //result.getBoxCollider.intersects(boxCollider)
+        int size = gameObjects.size();
+        for (int i = 0; i < size; i++) {
+            GameObject gameObject = gameObjects.get(i);
+            if (gameObject.isActive
+                && gameObject.getClass().isAssignableFrom(clazz)
+                && gameObject instanceof Physics) {
+                Physics gameObjectPhysics = (Physics) gameObject;
+                if (gameObjectPhysics.getBoxCollider().intersects(boxCollider)) {
+                    return (E) gameObject;
+                }
+            }
+        }
+        return null;
     }
 
     private static boolean isValidRecycle(GameObject gameObject, Class clazz) {

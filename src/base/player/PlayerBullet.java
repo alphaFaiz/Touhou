@@ -1,7 +1,10 @@
 package base.player;
 
 import base.GameObject;
+import base.enemy.Enemy;
 import base.game.Setting;
+import base.physics.BoxCollider;
+import base.physics.Physics;
 import base.renderer.AnimationRenderer;
 import base.renderer.SingleImageRenderer;
 import tklibs.SpriteUtils;
@@ -9,29 +12,39 @@ import tklibs.SpriteUtils;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class PlayerBullet extends GameObject {
-
+public class PlayerBullet extends GameObject implements Physics {
+    BoxCollider boxCollider;
     public  PlayerBullet() {
         super();
         this.position.set(0,0);
         this.velocity.set(0,-5);
+        this.boxCollider = new BoxCollider(this.position, 24, 24);
     }
 
     @Override
     public void run() {
         super.run();
         this.destroyIfNeeded();
-//        this.position.addThis(0,-7);
-//        if (this.position.y < -20 || this.position.y > Setting.BACKGROUND_IMG_HEIGHT +20
-//                || this.position.x < -20 || this.position.x > Setting.BACKGROUND_IMG_WIDTH + 20) {
-//            this.destroy();
-//        }
+        this.hitEnemy();
+    }
+
+    private void hitEnemy() {
+        Enemy enemy = GameObject.intersects(Enemy.class, this.boxCollider);
+        if (enemy != null) {
+            enemy.destroy();
+            this.destroy();
+        }
     }
 
     private void destroyIfNeeded() {
         if (this.position.y < -20 || this.position.y >= Setting.BACKGROUND_IMG_HEIGHT
-                || this.position.x < 0 || this.position.x >= Setting.BACKGROUND_IMG_WIDTH) {
+                || this.position.x < -20 || this.position.x >= Setting.BACKGROUND_IMG_WIDTH) {
             this.destroy();
         }
+    }
+
+    @Override
+    public BoxCollider getBoxCollider() {
+        return this.boxCollider;
     }
 }
