@@ -8,6 +8,7 @@ import base.game.Setting;
 import base.physics.BoxCollider;
 import base.physics.Physics;
 import base.renderer.AnimationRenderer;
+import base.renderer.BoxRenderer;
 import base.renderer.SingleImageRenderer;
 import tklibs.SpriteUtils;
 
@@ -19,11 +20,12 @@ public class Enemy extends GameObject implements Physics {
     FrameCounter fireCounter;
     public Enemy() {
         super();
-        this.createRenderer();
         this.position.set(100, 100);
         this.fireCounter = new FrameCounter(20);
         this.velocity.set(0,3);
         this.boxCollider = new BoxCollider(this.position, 34, 50);
+        //homework
+        this.renderer = new BoxRenderer(boxCollider);
     }
 
     private void createRenderer() {
@@ -89,5 +91,3 @@ public class Enemy extends GameObject implements Physics {
         return this.boxCollider;
     }
 }
-
-

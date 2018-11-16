@@ -5,6 +5,7 @@ import base.game.Setting;
 import base.physics.BoxCollider;
 import base.physics.Physics;
 import base.player.Player;
+import base.renderer.BoxRenderer;
 import base.renderer.SingleImageRenderer;
 import tklibs.SpriteUtils;
 
@@ -20,6 +21,8 @@ public class EnemyBullet extends GameObject implements Physics {
         this.renderer = new SingleImageRenderer(image);
         this.velocity.set(0,5);
         this.boxCollider = new BoxCollider(this.position, 16, 16);
+        //homework
+        //this.renderer = new BoxRenderer(boxCollider);
     }
 
     @Override

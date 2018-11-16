@@ -7,6 +7,8 @@ import base.game.Setting;
 import base.physics.BoxCollider;
 import base.physics.Physics;
 import base.renderer.AnimationRenderer;
+import base.renderer.BoxRenderer;
+import base.renderer.SingleImageRenderer;
 import tklibs.SpriteUtils;
 
 import java.awt.image.BufferedImage;
@@ -22,7 +24,9 @@ public class Player extends GameObject implements Physics {
         this.position.set(200, 300);
         this.fireCounter = new FrameCounter(10);
         this.boxCollider = new BoxCollider(this.position,32,48);
+        //homework
         this.health = 3;
+        //this.renderer = new BoxRenderer(boxCollider);
     }
 
     private void createRenderer() {
@@ -37,17 +41,6 @@ public class Player extends GameObject implements Physics {
         );
         this.renderer = new AnimationRenderer(images);
     }
-//    private void createRenderer() {
-//        ArrayList<BufferedImage> images = new ArrayList<>();
-//        images.add(SpriteUtils.loadImage("assets/images/players/straight/0.png"));
-//        images.add(SpriteUtils.loadImage("assets/images/players/straight/1.png"));
-//        images.add(SpriteUtils.loadImage("assets/images/players/straight/2.png"));
-//        images.add(SpriteUtils.loadImage("assets/images/players/straight/3.png"));
-//        images.add(SpriteUtils.loadImage("assets/images/players/straight/4.png"));
-//        images.add(SpriteUtils.loadImage("assets/images/players/straight/5.png"));
-//        images.add(SpriteUtils.loadImage("assets/images/players/straight/6.png"));
-//        this.renderer = new AnimationRenderer(images);
-//    }
 
     @Override
     public void run() {
