@@ -42,12 +42,11 @@ public class EnemyBullet extends GameObject implements Physics {
         if (player != null) {
             if (player.health >0){
                 player.health -=1;
-                this.destroy();
             }
             else {
                 player.destroy();
-                this.destroy();
             }
+            this.destroy();
         }
     }
 
